@@ -2,8 +2,6 @@
 
 An online platform built to connect **farmers** directly with **buyers**, enabling fair trade of crops and ensuring transparency through **real-time crop price tracking**. This system helps improve the agricultural supply chain by removing middlemen and giving farmers more control over their sales and earnings.
 
----
-
 ## 🚀 Features
 
 - 👨‍🌾 **Farmer and Buyer Registration/Login**
@@ -12,8 +10,6 @@ An online platform built to connect **farmers** directly with **buyers**, enabli
 - 🛒 **Crop Purchasing and Order Management**
 - 💬 **Chat System** between Farmers and Buyers
 - 🛠️ **Admin Dashboard** to manage users, listings, and pricing
-
----
 
 ## 🛠️ Tech Stack
 
