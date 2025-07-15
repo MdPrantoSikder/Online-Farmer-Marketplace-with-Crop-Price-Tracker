@@ -1,34 +1,43 @@
-# 🌿 Online Farmer Marketplace with Crop Price Tracker
+#  Online Farmer Marketplace with Crop Price Tracker
 
-An online platform built to connect **farmers** directly with **buyers**, enabling fair trade of crops and ensuring transparency through **real-time crop price tracking**. This system helps improve the agricultural supply chain by removing middlemen and giving farmers more control over their sales and earnings.
+An online platform that connects **farmers** directly with **buyers**, allowing them to trade crops fairly and transparently. The system provides a **real-time crop price tracker**, secure user management, and smooth user interaction—all powered by a **Django REST API** and a **React frontend**.
 
 ## 🚀 Features
 
-- 👨‍🌾 **Farmer and Buyer Registration/Login**
-- 🌾 **Crop Listing & Search System**
-- 💰 **Real-time Crop Price Tracker** (with historical data)
-- 🛒 **Crop Purchasing and Order Management**
-- 💬 **Chat System** between Farmers and Buyers
-- 🛠️ **Admin Dashboard** to manage users, listings, and pricing
+- 👨‍🌾 Farmer and 👤 Buyer authentication system
+- 🌽 Crop listing, searching, and buying
+- 📈 Real-time crop price tracking
+- 💬 Messaging system between users
+- 🛠️ Admin panel for managing users, crops, and prices
 
-## 🛠️ Tech Stack
+## 🧰 Tech Stack
 
-> *(Modify based on your stack)*
-
-**Frontend:**
+### Frontend
 - HTML, CSS, JavaScript
-- React / Vue / Bootstrap (optional)
+- **React.js**
+  
 
-**Backend:**
-- Node.js / Django / Laravel / PHP
+### Backend
+- **Django** with Django REST Framework
+- JWT-based authentication
 
-**Database:**
-- MySQL / MongoDB
+### Database
+- **MySQL** (via Django ORM)
 
-**APIs:**
-- Market Price Data (Live/Mocked)
+### Deployment
+- **Azure App Service** (Backend)
+- **Azure Static Web App / Blob Storage** (Frontend)
+- **Azure MySQL Database**
 
----
+## 📡 API (Django REST)
 
-## 📂 Project Structure
+The backend provides a secure REST API:
 
+- `POST /api/register/` – Register user  
+- `POST /api/login/` – Login (returns JWT)  
+- `GET /api/crops/` – List all crops  
+- `POST /api/crops/` – Add new crop (farmer only)  
+- `GET /api/prices/` – Get current crop prices
+
+> 🛡️ Auth: All protected routes require a valid JWT token  
+> 📦 Data Format: JSON
