@@ -19,7 +19,7 @@ An online platform that connects **farmers** directly with **buyers**, allowing 
 
 ### Backend
 - **Django** with Django REST Framework
-- JWT-based authentication
+-  FastAPI
 
 ### Database
 - **MySQL** (via Django ORM)
@@ -28,6 +28,8 @@ An online platform that connects **farmers** directly with **buyers**, allowing 
 - **Azure App Service** (Backend)
 - **Azure Static Web App / Blob Storage** (Frontend)
 - **Azure MySQL Database**
+### Project Management: 
+Trello .
 
 ## 📡 API (Django REST)
 
