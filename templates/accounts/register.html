@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Register | KrishiBazar{% endblock %}
+{% block content %}
+<div class="container" style="max-width:520px;">
+  <div class="product-card" style="padding:24px;">
+    <h2 style="margin-bottom:12px;">Create Account</h2>
+    {% if messages %}
+      <ul>
+        {% for message in messages %}
+          <li style="color:red;">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+    <form method="post">{% csrf_token %}
+      <div style="margin-bottom:12px;">
+        <label>Username</label>
+        <input name="username" class="search-bar" style="width:100%; border-radius:12px; margin-top:6px;" value="{{ username|default:'' }}">
+      </div>
+      <div style="margin-bottom:12px;">
+        <label>Email</label>
+        <input name="email" type="email" class="search-bar" style="width:100%; border-radius:12px; margin-top:6px;" value="{{ email|default:'' }}">
+      </div>
+      <div style="margin-bottom:12px;">
+        <label>Password</label>
+        <input name="password" type="password" class="search-bar" style="width:100%; border-radius:12px; margin-top:6px;">
+      </div>
+      <div style="margin-bottom:12px;">
+        <label>Confirm Password</label>
+        <input name="password2" type="password" class="search-bar" style="width:100%; border-radius:12px; margin-top:6px;">
+      </div>
+      <div style="margin-bottom:16px;">
+        <label>Role:</label>
+        <select name="role" required class="search-bar" style="width:100%; border-radius:12px; margin-top:6px;">
+          <option value="CUSTOMER">Customer</option>
+          <option value="FARMER">Farmer</option>
+        </select>
+      </div>
+      <button class="btn btn-secondary" style="width:100%;">Register</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

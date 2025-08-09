@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Farmer Dashboard | KrishiBazar{% endblock %}
+{% block content %}
+
+<div class="container" style="margin-bottom:14px;">
+  <div style="display:flex; justify-content:space-between; align-items:center;">
+    <h2 style="margin:0;">My Products</h2>
+    <a class="btn btn-primary" href="{% url 'farmers:product_add' %}">+ Add Product</a>
+  </div>
+</div>
+
+<div class="product-grid">
+  {% for p in products %}
+  <div class="product-card">
+    <div class="product-image">
+      <img
+        src="{% if p.image %}{{ p.image.url }}{% else %}{% static 'image/product/img-1.jpg' %}{% endif %}"
+        alt="{{ p.title }}"
+      >
+    </div>
+    <h3>{{ p.title }}</h3>
+    <p>৳{{ p.price }}</p>
+    <div style="color:#777; font-size:.9rem; margin-bottom:8px;">
+      {% if p.active %}Active{% else %}Inactive{% endif %}
+    </div>
+    <div style="display:flex; gap:8px; justify-content:center;">
+      <a class="btn btn-secondary" href="{% url 'farmers:product_edit' p.pk %}">Edit</a>
+      <form action="{% url 'farmers:product_delete' p.pk %}" method="post" onsubmit="return confirm('Delete this product?');">
+        {% csrf_token %}
+        <button class="btn btn-primary" style="background:#e53935;">Delete</button>
+      </form>
+    </div>
+  </div>
+  {% empty %}
+    <div class="text-product">No products yet. Click “Add Product”.</div>
+  {% endfor %}
+</div>
+
+{% endblock %}

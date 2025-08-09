@@ -1,0 +1,142 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{% block title %}KrishiBazar{% endblock %}</title>
+
+  <link rel="stylesheet" href="{% static 'css/freshgrocer.css' %}">
+  {% block extra_head %}{% endblock %}
+  <script src="{% static 'js/freshgrocer.js' %}" defer></script>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="main-header">
+    <a class="logo" href="{% url 'marketplace:home' %}">KrishiBazar</a>
+
+    <!-- Search (GET to home) -->
+    <form id="searchForm" class="search-container" action="{% url 'marketplace:home' %}" method="get">
+      <input type="search"
+             placeholder="Search products..."
+             class="search-bar"
+             name="q"
+             value="{{ request.GET.q|default:'' }}"/>
+    </form>
+    <button class="header-icon search-btn" type="submit" form="searchForm" style="border:none;">🔎 Search</button>
+
+    <div class="header-icons">
+      <div class="header-icon" role="button" aria-label="Wishlist">❤️ Wishlist</div>
+
+      <!-- Cart count = number of distinct items -->
+      <a class="header-icon" href="{% url 'marketplace:view_cart' %}">
+        🛒 Cart
+        {% if request.session.cart %}
+          <span style="margin-left:6px; background:#ffa726; color:#fff; padding:2px 8px; border-radius:12px; font-weight:700; font-size:.85rem;">
+            {{ request.session.cart|length }}
+          </span>
+        {% endif %}
+      </a>
+
+      {% if user.is_authenticated %}
+        <a class="header-icon" href="{% url 'accounts:customer_dashboard' %}">👤 My Account</a>
+
+        {# Farmer shortcut (don’t blow up if profile missing) #}
+        {% with role=user.profile.role|default:"" %}
+          {% if role == "FARMER" %}
+            <a class="header-icon" href="{% url 'farmers:dashboard' %}">🛍️ Farmer</a>
+            <a class="header-icon" href="{% url 'farmers:product_add' %}">➕ Add Product</a>
+          {% endif %}
+        {% endwith %}
+
+        <a class="header-icon" href="{% url 'accounts:logout' %}">🚪 Logout</a>
+      {% else %}
+        <a class="header-icon" href="{% url 'accounts:login' %}">🔐 Login</a>
+        <a class="header-icon" href="{% url 'accounts:register' %}">➕ Register</a>
+      {% endif %}
+    </div>
+  </header>
+
+  <!-- NAVIGATION -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <ul class="nav-links">
+        <li>
+          <a href="{% url 'marketplace:home' %}"
+             class="{% if request.resolver_match.app_name == 'marketplace' and request.resolver_match.url_name == 'home' %}active{% endif %}">
+            Home
+          </a>
+        </li>
+        <li><a href="#">Categories</a></li>
+        <li><a href="#">Offers</a></li>
+        <li><a href="#">Shop</a></li>
+        <li>
+          <a href="{% url 'accounts:customer_dashboard' %}"
+             class="{% if request.resolver_match.app_name == 'accounts' and request.resolver_match.url_name == 'customer_dashboard' %}active{% endif %}">
+            Account
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  {# Optional area above the main grid (hero, sitewide banner, etc.) #}
+  {% block before_main %}{% endblock %}
+
+  <!-- MESSAGES -->
+  {% if messages %}
+    <div class="container" style="margin-top:12px;" aria-live="polite">
+      {% for message in messages %}
+        <div class="flash {{ message.tags }}"
+             style="background:#fff; border-left:4px solid #81c784; padding:10px 12px; border-radius:8px; box-shadow:0 1px 4px rgba(0,0,0,.05); margin-bottom:8px;">
+          {{ message }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <!-- MAIN GRID -->
+  <section class="main-grid container">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
+        <h3 style="margin:0;">Categories</h3>
+        <button class="header-icon sidebar-toggle" type="button" style="border:none; padding:6px 10px;" aria-label="Toggle sidebar">☰</button>
+      </div>
+
+      {% block sidebar %}
+      <ul>
+        <li><a href="#">🍜 Snacks & Instant</a></li>
+        <li><a href="#">🥤 Beverages</a></li>
+        <li><a href="#">🍫 Chocolates</a></li>
+        <li><a href="#">🥦 Vegetables</a></li>
+        <li><a href="#">🍎 Fruits</a></li>
+        <li><a href="#">🥩 Meat & Fish</a></li>
+        <li><a href="#">🦐 Sea Food</a></li>
+        <li><a href="#">🍞 Bakery</a></li>
+      </ul>
+      {% endblock %}
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+      {% block content %}{% endblock %}
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-container">
+      <p>&copy; {% now "Y" %} KrishiBazar. All rights reserved.</p>
+      <ul class="footer-links">
+        <li><a href="#">Privacy</a></li>
+        <li><a href="#">Terms</a></li>
+        <li><a href="#">Support</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  {% block extra_scripts %}{% endblock %}
+</body>
+</html>

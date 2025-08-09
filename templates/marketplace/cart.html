@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Cart | KrishiBazar{% endblock %}
+{% block content %}
+<div class="product-card" style="padding:20px;">
+  <h2 style="margin-bottom:12px;">Your Cart</h2>
+
+  {% if items %}
+    <div class="table-wrap" style="overflow:auto;">
+      <table style="width:100%; border-collapse:collapse;">
+        <thead>
+          <tr style="text-align:left; color:#555;">
+            <th style="padding:8px;">Product</th>
+            <th style="padding:8px; text-align:center;">Qty</th>
+            <th style="padding:8px; text-align:right;">Line</th>
+            <th style="padding:8px; text-align:right;">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for it in items %}
+          <tr style="border-top:1px solid #eee;">
+            <td style="padding:8px; display:flex; align-items:center; gap:10px;">
+              <img src="{% static 'image/product/img-1.jpg' %}" width="56" height="42" style="object-fit:cover; border-radius:6px;">
+              <div>
+                <div style="font-weight:600;">{{ it.product.title }}</div>
+                <div style="color:#777; font-size:.9rem;">৳{{ it.product.price }} each</div>
+              </div>
+            </td>
+            <td style="padding:8px; text-align:center;">{{ it.qty }}</td>
+            <td style="padding:8px; text-align:right;">৳{{ it.line_total }}</td>
+            <td style="padding:8px; text-align:right;">
+              <form method="post" action="{% url 'marketplace:remove_from_cart' it.product.pk %}">{% csrf_token %}
+                <button class="btn btn-secondary">Remove</button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+        <tfoot>
+          <tr style="border-top:1px solid #eee;">
+            <td></td>
+            <td style="padding:8px; text-align:right; font-weight:700;">Total</td>
+            <td style="padding:8px; text-align:right; font-weight:700;">৳{{ total }}</td>
+            <td></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+    <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:12px;">
+      <a class="btn btn-primary disabled">Checkout (demo)</a>
+    </div>
+  {% else %}
+    <div class="empty-state" style="padding:18px; background:#fafafa; border-radius:10px; text-align:center;">
+      Your cart is empty. <a href="{% url 'marketplace:home' %}">Browse products</a>.
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

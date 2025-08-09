@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{ product.title }} | KrishiBazar{% endblock %}
+{% block content %}
+<div class="product-card" style="padding:20px;">
+  <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
+    <div class="product-image">
+      <img src="{% static 'image/product/img-1.jpg' %}" alt="{{ product.title }}">
+    </div>
+    <div>
+      <span class="tagline">Fresh & Organic</span>
+      <h2 style="margin:8px 0 6px;">{{ product.title }}</h2>
+      <div style="color:#2e7d32; font-weight:800; font-size:1.25rem;">৳{{ product.price }}</div>
+      <p style="color:#555; margin-top:8px;">{{ product.description }}</p>
+
+      <form method="post" action="{% url 'marketplace:add_to_cart' product.pk %}" style="margin-top:12px;">{% csrf_token %}
+        <input type="number" name="qty" value="1" min="1" class="search-bar" style="width:110px; margin-right:8px;">
+        <button class="btn btn-primary">Add to Cart</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="product-card" style="padding:20px; margin-top:16px;">
+  <h3 style="margin-bottom:10px;">Reviews</h3>
+  <ul style="list-style:none; padding:0; margin:0;">
+    {% for r in reviews %}
+      <li style="padding:12px 0; border-top:1px solid #eee;">
+        <strong>{{ r.user.username }}</strong>
+        <span style="color:#f59e0b; margin-left:6px;">
+          {% for i in "12345"|make_list %}
+            ★{% if forloop.counter > r.rating %}<span style="opacity:.25;">★</span>{% endif %}
+          {% endfor %}
+        </span>
+        <div style="color:#777; font-size:.9rem;">{{ r.created_at|date:"M d, Y" }}</div>
+        <div style="margin-top:6px;">{{ r.comment }}</div>
+      </li>
+    {% empty %}
+      <li>No reviews yet.</li>
+    {% endfor %}
+  </ul>
+
+  {% if user.is_authenticated %}
+  <form method="post" action="{% url 'marketplace:add_review' product.pk %}" style="margin-top:14px;">{% csrf_token %}
+    <label>Rating</label>
+    <select name="rating" class="search-bar" style="width:110px; margin: 6px 0 12px;">
+      {% for i in "12345"|make_list %}<option value="{{ forloop.counter }}">{{ forloop.counter }}</option>{% endfor %}
+    </select>
+    <label>Comment</label>
+    <textarea name="comment" class="search-bar" rows="3" style="width:100%; border-radius:12px; margin-top:6px;"></textarea>
+    <button class="btn btn-secondary" style="margin-top:10px;">Submit Review</button>
+  </form>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,17 @@
+Django>=5.0,<6.0
+djangorestframework>=3.14
+django-filter>=24.1
+Pillow>=10.0
+mysqlclient>=2.2
+python-decouple>=3.8
+django-crispy-forms>=2.1
+crispy-bootstrap5>=0.7
+whitenoise>=6.6
+gunicorn>=21.2
+requests>=2.31
+#To run the use .venv and activate it
+#python -m venv .venv
+#Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+#cd C:\Users\User\OneDrive\Desktop\hello\farmercart
+#.\venv\Scripts\activate
+#python manage.py runserver

@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}My Account | KrishiBazar{% endblock %}
+{% block content %}
+<div class="container">
+
+  <!-- Profile card -->
+  <div class="product-card" style="padding:20px; margin-bottom:18px;">
+    <div style="display:flex; align-items:center; gap:14px;">
+      <div style="width:56px; height:56px; border-radius:50%; background:#e8f5e9; display:flex; align-items:center; justify-content:center; font-size:26px;">👤</div>
+      <div>
+        <div style="font-weight:700;">{{ request.user.username }}</div>
+        <div style="color:#666; font-size:0.9rem;">{{ request.user.email|default:"No email set" }}</div>
+      </div>
+      <div style="margin-left:auto; color:#666; font-size:0.9rem;">
+        Role: <strong>{{ profile.role|default:"CUSTOMER" }}</strong>
+      </div>
+    </div>
+  </div>
+
+  {% if profile.role == "FARMER" %}
+  <!-- FARMER TOOLS -->
+  <div class="product-card" style="padding:20px; margin-bottom:18px;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+      <h3 style="margin:0;">Farmer tools</h3>
+      <div style="display:flex; gap:8px;">
+        <a class="btn btn-secondary" href="{% url 'farmers:dashboard' %}">Manage Products</a>
+        <a class="btn btn-primary" href="{% url 'farmers:product_add' %}">+ Add Product</a>
+      </div>
+    </div>
+
+    <!-- your products (inline CRUD) -->
+    <div class="product-grid">
+      {% for p in my_products %}
+      <div class="product-card" style="padding:12px;">
+        <div class="product-image">
+          <img src="{% if p.image %}{{ p.image.url }}{% else %}{% static 'image/product/img-1.jpg' %}{% endif %}"
+               alt="{{ p.title }}" style="height:120px;">
+        </div>
+        <h4 style="font-size:1rem; margin:8px 0 4px;">{{ p.title }}</h4>
+        <div style="color:#2e7d32; font-weight:700;">৳{{ p.price }}</div>
+        <div style="color:#777; font-size:.9rem; margin-top:4px;">
+          {% if p.active %}Active{% else %}Inactive{% endif %}
+        </div>
+        <div style="display:flex; gap:8px; justify-content:center; margin-top:8px;">
+          <a class="btn btn-secondary" href="{% url 'farmers:product_edit' p.pk %}">Edit</a>
+          <form action="{% url 'farmers:product_delete' p.pk %}" method="post"
+                onsubmit="return confirm('Delete \"{{ p.title }}\"?');">
+            {% csrf_token %}
+            <button class="btn btn-primary" style="background:#e53935;">Delete</button>
+          </form>
+        </div>
+      </div>
+      {% empty %}
+        <div class="empty-state" style="padding:18px; background:#fafafa; border-radius:10px; text-align:center;">
+          No products yet. Click “Add Product” to create your first listing.
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- Cart summary -->
+  <div class="product-card" style="padding:20px; margin-bottom:18px;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+      <h3 style="margin:0;">Cart summary</h3>
+      <form action="{% url 'marketplace:clear_cart' %}" method="post">{% csrf_token %}
+        <button class="btn btn-secondary" {% if not cart_items %}disabled{% endif %}>Clear cart</button>
+      </form>
+    </div>
+
+    {% if cart_items %}
+      <div class="table-wrap" style="overflow:auto;">
+        <table style="width:100%; border-collapse:collapse;">
+          <thead>
+            <tr style="text-align:left; color:#555;">
+              <th style="padding:8px;">Product</th>
+              <th style="padding:8px; text-align:center;">Qty</th>
+              <th style="padding:8px; text-align:right;">Line</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for it in cart_items %}
+            <tr style="border-top:1px solid #eee;">
+              <td style="padding:8px;">{{ it.product.title }}</td>
+              <td style="padding:8px; text-align:center;">{{ it.qty }}</td>
+              <td style="padding:8px; text-align:right;">৳{{ it.line_total }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+          <tfoot>
+            <tr style="border-top:1px solid #eee;">
+              <td></td>
+              <td style="padding:8px; text-align:right; font-weight:700;">Total</td>
+              <td style="padding:8px; text-align:right; font-weight:700;">৳{{ cart_total }}</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    {% else %}
+      <div class="empty-state" style="padding:18px; background:#fafafa; border-radius:10px; text-align:center;">
+        Your cart is empty. <a href="{% url 'marketplace:home' %}">Browse products</a>.
+      </div>
+    {% endif %}
+  </div>
+
+  <!-- Suggestions grid (small images) -->
+  <div class="product-card" style="padding:20px;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+      <h3 style="margin:0;">You might like</h3>
+      <a href="{% url 'marketplace:home' %}" style="color:#0288d1;">See all</a>
+    </div>
+    <div class="product-grid">
+      {% for p in suggestions %}
+      <div class="product-card" style="padding:12px;">
+        <div class="product-image">
+          <img src="{% if p.image %}{{ p.image.url }}{% else %}{% static 'image/product/img-1.jpg' %}{% endif %}" alt="{{ p.title }}" style="height:120px;">
+        </div>
+        <h4 style="font-size:1rem; margin:8px 0 4px;">{{ p.title }}</h4>
+        <div style="color:#2e7d32; font-weight:700;">৳{{ p.price }}</div>
+        <div style="display:flex; gap:8px; justify-content:center; margin-top:8px;">
+          <a class="btn btn-secondary" href="{% url 'marketplace:product_detail' p.pk %}">View</a>
+          <form action="{% url 'marketplace:add_to_cart' p.pk %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="qty" value="1">
+            <button class="btn btn-primary">Add</button>
+          </form>
+        </div>
+      </div>
+      {% empty %}
+      <p>No suggestions yet.</p>
+      {% endfor %}
+    </div>
+  </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,342 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>KrishiBazar | Grocery E-commerce</title>
+
+  <!-- Your theme -->
+  <link rel="stylesheet" href="{% static 'css/freshgrocer.css' %}" />
+  <script src="{% static 'js/freshgrocer.js' %}" defer></script>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="main-header">
+    <a class="logo" href="{% url 'marketplace:home' %}">KrishiBazar</a>
+
+    <form id="searchForm" class="search-container" action="{% url 'marketplace:home' %}" method="get">
+      <input type="search" placeholder="Search products..." class="search-bar" name="q" value="{{ request.GET.q|default:'' }}" />
+    </form>
+    <button class="header-icon search-btn" type="submit" form="searchForm" style="border:none;">🔎 Search</button>
+
+    <div class="header-icons">
+      <a class="header-icon" href="#">❤️ Wishlist</a>
+      <a class="header-icon" href="{% url 'marketplace:view_cart' %}">🛒 Cart</a>
+
+      {% if user.is_authenticated %}
+        <a class="header-icon" href="{% url 'accounts:customer_dashboard' %}">👤 My Account</a>
+        <a class="header-icon" href="{% url 'accounts:logout' %}">🚪 Logout</a>
+      {% else %}
+        <a class="header-icon" href="{% url 'accounts:login' %}">🔐 Login</a>
+        <a class="header-icon" href="{% url 'accounts:register' %}">➕ Register</a>
+      {% endif %}
+    </div>
+  </header>
+
+  <!-- NAVIGATION -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <ul class="nav-links">
+        <li><a href="{% url 'marketplace:home' %}">Home</a></li>
+        <li><a href="#">Categories</a></li>
+        <li><a href="#">Offers</a></li>
+        <li><a href="#">Shop</a></li>
+        <li><a href="{% url 'accounts:customer_dashboard' %}">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- MAIN CONTENT GRID -->
+  <section class="main-grid container">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div style="display:flex; align-items:center; justify-content:space-between;">
+        <h3>Categories</h3>
+        <button class="header-icon sidebar-toggle" type="button" style="border:none; padding:6px 10px;">☰</button>
+      </div>
+      <ul>
+        <li><a href="#">🍜 Snacks & Instant</a></li>
+        <li><a href="#">🥤 Beverages</a></li>
+        <li><a href="#">🍫 Chocolates</a></li>
+        <li><a href="#">🥦 Vegetables</a></li>
+        <li><a href="#">🍎 Fruits</a></li>
+        <li><a href="#">🥩 Meat & Fish</a></li>
+        <li><a href="#">🦐 Sea Food</a></li>
+        <li><a href="#">🍞 Bakery</a></li>
+      </ul>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+
+      <!-- HERO SLIDER -->
+      <div class="hero-slider">
+        <div class="slide active">
+          <div class="hero-text">
+            <span class="tagline">Fresh & Organic</span>
+            <h1>Healthy Vegetables to Your Kitchen</h1>
+            <p>Starting from ৳10</p>
+            <a class="btn btn-primary" href="#featured">Shop Now</a>
+          </div>
+          <div class="hero-image">
+            <img src="{% static 'image/slider/1.jpg' %}" alt="Fresh Vegetables">
+          </div>
+        </div>
+
+        <div class="slide">
+          <div class="hero-text">
+            <span class="tagline">Farm to Table</span>
+            <h1>Fresh Fruits Delivered Daily</h1>
+            <p>Discounts on all combos</p>
+            <a class="btn btn-primary" href="#featured">Shop Now</a>
+          </div>
+          <div class="hero-image">
+            <img src="{% static 'image/slider/2.jpg' %}" alt="Fresh Fruits">
+          </div>
+        </div>
+
+        <div class="slide">
+          <div class="hero-text">
+            <span class="tagline">100% Natural</span>
+            <h1>Healthy Groceries for You</h1>
+            <p>Free delivery on first order</p>
+            <a class="btn btn-primary" href="#featured">Shop Now</a>
+          </div>
+          <div class="hero-image">
+            <img src="{% static 'image/slider/13.jpg' %}" alt="Groceries">
+          </div>
+        </div>
+
+        <div class="slide">
+          <div class="hero-text">
+            <span class="tagline">Daily Essentials</span>
+            <h1>Fresh Meat & Seafood</h1>
+            <p>Save up to 20%</p>
+            <a class="btn btn-primary" href="#featured">Shop Now</a>
+          </div>
+          <div class="hero-image">
+            <img src="{% static 'image/slider/14.jpg' %}" alt="Meat and Seafood">
+          </div>
+        </div>
+
+        <div class="slide">
+          <div class="hero-text">
+            <span class="tagline">Local & Organic</span>
+            <h1>Support Local Farmers</h1>
+            <p>Buy Fresh, Eat Healthy</p>
+            <a class="btn btn-primary" href="#featured">Shop Now</a>
+          </div>
+          <div class="hero-image">
+            <img src="{% static 'image/slider/11.jpg' %}" alt="Local Produce">
+          </div>
+        </div>
+
+        <div class="slide">
+          <div class="hero-text">
+            <span class="tagline">Seasonal Picks</span>
+            <h1>Fruits of the Season</h1>
+            <p>Special Seasonal Discounts</p>
+            <a class="btn btn-primary" href="#featured">Shop Now</a>
+          </div>
+          <div class="hero-image">
+            <img src="{% static 'image/slider/61.jpg' %}" alt="Seasonal Fruits">
+          </div>
+        </div>
+
+        <div class="slide">
+          <div class="hero-text">
+            <span class="tagline">Premium Quality</span>
+            <h1>Best Grocery Deals</h1>
+            <p>Affordable, Reliable, Fresh</p>
+            <a class="btn btn-primary" href="#featured">Shop Now</a>
+          </div>
+          <div class="hero-image">
+            <img src="{% static 'image/slider/21.png' %}" alt="Premium Groceries">
+          </div>
+        </div>
+
+        <div class="slide">
+          <div class="hero-text">
+            <span class="tagline">Express Delivery</span>
+            <h1>Fast & Safe Grocery Delivery</h1>
+            <p>Order Now, Delivered Today</p>
+            <a class="btn btn-primary" href="#featured">Shop Now</a>
+          </div>
+          <div class="hero-image">
+            <img src="{% static 'image/slider/22.png' %}" alt="Express Delivery">
+          </div>
+        </div>
+
+        <div class="slide">
+          <div class="hero-text">
+            <span class="tagline">Exclusive Offers</span>
+            <h1>Special Weekend Deals</h1>
+            <p>Don't Miss Out!</p>
+            <a class="btn btn-primary" href="#featured">Shop Now</a>
+          </div>
+          <div class="hero-image">
+            <img src="{% static 'image/slider/62.jpg' %}" alt="Special Offers">
+          </div>
+        </div>
+
+        <!-- Slider Controls -->
+        <div class="slider-controls">
+          <span class="prev">&#10094;</span>
+          <span class="next">&#10095;</span>
+        </div>
+      </div>
+
+      <!-- POPULAR CATEGORIES -->
+      <section class="popular-categories">
+        <h2>Popular Categories</h2>
+        <div class="category-scroll">
+          <div class="category-card">Snacks</div>
+          <div class="category-card">Beverages</div>
+          <div class="category-card">Chocolates</div>
+          <div class="category-card">Vegetables</div>
+          <div class="category-card">Fruits</div>
+          <div class="category-card">Meat</div>
+          <div class="category-card">Seafood</div>
+        </div>
+      </section>
+
+      <!-- FEATURED PRODUCTS (dynamic) -->
+    <section class="featured-products">
+  <h2>Latest from Farmers</h2>
+  <div class="product-grid">
+    {% for p in products %}
+      <div class="product-card {% if highlight_id == p.id %}pulse{% endif %}" id="product-{{ p.id }}">
+        <div class="product-image">
+          <img src="{% if p.image %}{{ p.image.url }}{% else %}{% static 'image/product/img-1.jpg' %}{% endif %}" alt="{{ p.title }}">
+        </div>
+        <h3>{{ p.title }}</h3>
+        <p>৳{{ p.price }}</p>
+
+        <div style="display:flex; gap:8px; justify-content:center; margin-top:8px;">
+          <a class="btn btn-secondary" href="{% url 'marketplace:product_detail' p.pk %}">View</a>
+          <form action="{% url 'marketplace:add_to_cart' p.pk %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="qty" value="1">
+            <button class="btn btn-primary">Add to Cart</button>
+          </form>
+        </div>
+      </div>
+    {% empty %}
+      <div class="text-product">No products yet — be the first to list!</div>
+    {% endfor %}
+  </div>
+</section>
+
+
+      <!-- OFFERS -->
+      <section class="offers">
+        <h2>Upcoming Offers</h2>
+        <div class="offer-cards">
+          <div class="offer-card orange">Fresh Fruit -20%</div>
+          <div class="offer-card yellow">Chicken Sale -15%</div>
+          <div class="offer-card blue">Accessories -10%</div>
+        </div>
+      </section>
+
+      <!-- EXTENDED OFFERS -->
+      <section class="extended-offers">
+        <div class="product-listing-grid">
+          <div class="text-product">
+            <img src="{% static 'image/product/big-3.jpg' %}" alt="Minced Meat" class="product-thumb"> Minced meat pack, beef, mutton, and chicken
+          </div>
+          <div class="text-product">
+            <img src="{% static 'image/product/img-15.jpg' %}" alt="Raw Chicken" class="product-thumb"> Raw Chicken cut & clean 500g
+          </div>
+          <div class="text-product">
+            <img src="{% static 'image/product/img-14.jpg' %}" alt="Pork Slices" class="product-thumb"> Premium Pork Slices
+          </div>
+          <div class="text-product">
+            <img src="{% static 'image/product/img-13.jpg' %}" alt="Beef Steak" class="product-thumb"> Raw Beef Steak Sliced
+          </div>
+          <div class="text-product">
+            <img src="{% static 'image/product/img-12.jpg' %}" alt="Boneless Chicken Breast" class="product-thumb"> Raw Boneless Chicken Breast
+          </div>
+          <div class="text-product">
+            <img src="{% static 'image/product/img-11.jpg' %}" alt="Seafood Box" class="product-thumb"> Seafood Value Box
+          </div>
+          <div class="text-product">
+            <img src="{% static 'image/product/img-10.jpg' %}" alt="Meat Kebab" class="product-thumb"> Raw Meat Kebab
+          </div>
+          <div class="text-product">
+            <img src="{% static 'image/product/img-9.jpg' %}" alt="Fish Fillet" class="product-thumb"> Frozen Fish Fillet 500g
+          </div>
+        </div>
+      </section>
+
+      <!-- FEATURED + COMBOS -->
+      <section class="featured-products">
+        <h2>Featured Products</h2>
+        <div class="product-grid">
+          <div class="product-card">
+            <div class="product-image"><img src="{% static 'image/product/img-5.jpg' %}" alt="Raw Chicken"></div>
+            <h3>Raw Chicken</h3><p>৳499</p>
+          </div>
+          <div class="product-card">
+            <div class="product-image"><img src="{% static 'image/product/img-6.jpg' %}" alt="Jumbo Shrimp"></div>
+            <h3>Jumbo Shrimp</h3><p>৳699</p>
+          </div>
+          <div class="product-card">
+            <div class="product-image"><img src="{% static 'image/product/img-7.jpg' %}" alt="Organic Black Raisins"></div>
+            <h3>Organic Black Raisins</h3><p>৳349</p>
+          </div>
+          <div class="product-card">
+            <div class="product-image"><img src="{% static 'image/product/img-8.jpg' %}" alt="Fresh Spinach"></div>
+            <h3>Fresh Spinach</h3><p>৳199</p>
+          </div>
+        </div>
+
+        <div class="combo-offers">
+          <div class="combo-card yellow">
+            <h3>Organic Fruits</h3>
+            <p>Combo Offer: ৳1199</p>
+            <a class="btn btn-primary" href="#">Shop Now</a>
+          </div>
+          <div class="combo-card green">
+            <h3>Vegetables</h3>
+            <p>Combo Offer: ৳1299</p>
+            <a class="btn btn-primary" href="#">Shop Now</a>
+          </div>
+        </div>
+
+        <div class="promo-banner pink">
+          <h3>Super Discount on First Purchase</h3>
+          <a class="btn btn-secondary" href="#">Shop Now</a>
+        </div>
+      </section>
+
+      <!-- TESTIMONIALS -->
+      <section class="testimonials container">
+        <h2>Love from Customers</h2>
+        <div class="testimonial-grid">
+          <div class="testimonial"><p>“The freshest groceries delivered fast!”</p><strong>- Beatrix Cooper</strong></div>
+          <div class="testimonial"><p>“Great service and reasonable pricing.”</p><strong>- Kathryn Murphy</strong></div>
+          <div class="testimonial"><p>“My go-to store for weekly groceries.”</p><strong>- Jenny Wilson</strong></div>
+          <div class="testimonial"><p>“Loved the organic collection. 5 stars!”</p><strong>- Robert Fox</strong></div>
+        </div>
+      </section>
+
+    </div><!-- /main-content -->
+  </section><!-- /main-grid -->
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-container">
+      <p>&copy; {% now "Y" %} KrishiBazar. All rights reserved.</p>
+      <ul class="footer-links">
+        <li><a href="#">Privacy</a></li>
+        <li><a href="#">Terms</a></li>
+        <li><a href="#">Support</a></li>
+      </ul>
+    </div>
+  </footer>
+
+</body>
+</html>

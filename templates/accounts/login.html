@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Login | KrishiBazar{% endblock %}
+{% block content %}
+<div class="container" style="max-width:520px;">
+  <div class="product-card" style="padding:24px;">
+    <h2 style="margin-bottom:12px;">Login</h2>
+    <form method="post">
+      {% csrf_token %}
+      {% if form.errors %}
+        <ul style="color:red;">
+          {% for field in form %}
+            {% for error in field.errors %}
+              <li>{{ field.label }}: {{ error }}</li>
+            {% endfor %}
+          {% endfor %}
+          {% for error in form.non_field_errors %}
+            <li>{{ error }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+      <div style="margin-bottom:12px;">
+        <label>Username</label>
+        <input name="username" class="search-bar" style="width:100%; border-radius:12px; margin-top:6px;">
+      </div>
+      <div style="margin-bottom:16px;">
+        <label>Password</label>
+        <input name="password" type="password" class="search-bar" style="width:100%; border-radius:12px; margin-top:6px;">
+      </div>
+      <button class="btn btn-primary" style="width:100%;">Sign in</button>
+    </form>
+    <div style="margin-top:10px; text-align:center;">
+      <small>No account? <a href="{% url 'accounts:register' %}">Register</a></small>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+  // You can add custom JavaScript here if needed
+</script>
+{% endblock %}

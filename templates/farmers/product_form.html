@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{% if mode == "edit" %}Edit{% else %}Add{% endif %} Product | KrishiBazar{% endblock %}
+{% block content %}
+
+<div class="container" style="max-width:760px;">
+  <div class="product-card" style="padding:20px;">
+    <h2 style="margin-bottom:12px;">{% if mode == "edit" %}Edit{% else %}Add{% endif %} Product</h2>
+    <form method="post" enctype="multipart/form-data">{% csrf_token %}
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+        <div>
+          <label>Title</label>
+          {{ form.title }}
+        </div>
+        <div>
+          <label>Price</label>
+          {{ form.price }}
+        </div>
+        <div style="grid-column:1/-1;">
+          <label>Description</label>
+          {{ form.description }}
+        </div>
+        <div>
+          <label>Image</label>
+          {{ form.image }}
+          <small style="display:block; color:#777;">JPG/PNG, ~2–5MB ok</small>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          {{ form.active }} <label style="margin:0;">Active</label>
+        </div>
+      </div>
+
+      {% if product and product.image %}
+        <div style="margin-top:16px;">
+          <div style="color:#777; margin-bottom:6px;">Current image:</div>
+          <img src="{{ product.image.url }}" alt="" style="max-width:260px; border-radius:8px;">
+        </div>
+      {% endif %}
+
+      <div style="margin-top:16px; display:flex; gap:10px;">
+        <button class="btn btn-primary" type="submit">Save</button>
+        <a class="btn btn-secondary" href="{% url 'farmers:dashboard' %}">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% endblock %}
