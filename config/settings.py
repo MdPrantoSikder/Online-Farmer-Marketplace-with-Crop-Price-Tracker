@@ -75,7 +75,7 @@ DATABASES = {
     "ENGINE": "django.db.backends.mysql",
     "NAME": "farmercart",
     "USER": "root",
-    "PASSWORD": "4422322321",
+    "PASSWORD": "",
     "HOST": "127.0.0.1",
     "PORT": "3306",
     "OPTIONS": {"charset": "utf8mb4"},
