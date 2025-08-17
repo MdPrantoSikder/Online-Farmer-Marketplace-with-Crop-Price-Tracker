@@ -4,6 +4,13 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
+# apps/accounts/views.py
+from .models import Profile  # <-- Import the Profile model
+
+
+from apps.accounts.forms import RegistrationForm
+from apps.accounts.models import Profile
+from django.contrib.auth.models import User
 
 from apps.marketplace.models import Product
 
@@ -11,33 +18,42 @@ from apps.marketplace.models import Product
 def register_view(request):
     context = {}
     if request.method == "POST":
-        username = (request.POST.get("username") or "").strip()
-        email = (request.POST.get("email") or "").strip()
-        password = request.POST.get("password") or ""
-        password2 = request.POST.get("password2") or ""
-        role = request.POST.get("role")  # <-- get role from form
+        form = RegistrationForm(request.POST, request.FILES)
+        if form.is_valid():
+            # Extract form data
+            username = form.cleaned_data['username']
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+            role = form.cleaned_data['role']
 
-        context = {"username": username, "email": email, "role": role}
+            # Check for Farmer-specific fields (image and bio)
+            image = form.cleaned_data.get('image')
+            bio = form.cleaned_data.get('bio')
 
-        if not username or not password:
-            messages.error(request, "Username and password are required.")
-        elif password != password2:
-            messages.error(request, "Passwords do not match.")
-        elif User.objects.filter(username=username).exists():
-            messages.error(request, "Username already taken.")
-        else:
+            # Create User object
             user = User.objects.create_user(username=username, email=email, password=password)
-            # Set role in profile
-            if hasattr(user, "profile"):
-                user.profile.role = role
-                user.profile.save()
+
+            # Set profile details for Farmer
+            if role == "FARMER":
+                if not image or not bio:
+                    messages.error(request, "Image and Bio are required for Farmers.")
+                    return redirect('accounts:register')
+                # Create a profile and set image/bio for farmer
+                profile = Profile.objects.create(user=user, role=role, profile_picture=image, bio=bio)
+            else:
+                # Create profile for Customer
+                profile = Profile.objects.create(user=user, role=role)
+
             login(request, user)
             messages.success(request, "Registration successful. Welcome!")
             return redirect("marketplace:home")
+        else:
+            messages.error(request, "Please correct the errors below.")
+    else:
+        form = RegistrationForm()
 
-    return render(request, "accounts/register.html", context)
-
-
+    context['form'] = form
+    return render(request, 'accounts/register.html', context)
 def login_view(request):
     form = AuthenticationForm(request, data=request.POST or None)
     if request.method == "POST":

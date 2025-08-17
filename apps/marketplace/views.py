@@ -7,35 +7,37 @@ from django.db import transaction
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render, resolve_url
 from django.views.decorators.http import require_http_methods
-
 from .models import Product, Review
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from .models import Product
+from .serializers import ProductSerializer
+from .models import Product, Wishlist
 
 
+# In views.py
 def home(request):
-    """
-    Home with optional ?q= search, latest products, and optional ?new=<id> highlight.
-    """
     q = (request.GET.get("q") or "").strip()
     qs = Product.objects.filter(active=True)
     if q:
         qs = qs.filter(Q(title__icontains=q) | Q(description__icontains=q))
-    products = qs.order_by("-id")[:12]
-
-    # Highlight a newly created/edited product (e.g., after farmer redirect)
-    new_id = request.GET.get("new")
-    highlight_id = int(new_id) if (new_id and new_id.isdigit()) else None
+    products = qs.order_by("-created_at")[:12]  # Get the latest 12 products
 
     return render(
         request,
         "marketplace/home.html",
-        {"products": products, "highlight_id": highlight_id, "q": q},
+        {"products": products},
     )
+
 
 
 def product_detail(request, pk):
     """
     Product page with reviews list.
     """
+    from .models import Product  # <-- Import Product inside the function to avoid circular import
+
     product = get_object_or_404(Product, pk=pk, active=True)
     reviews = (
         Review.objects.filter(product=product)
@@ -47,8 +49,6 @@ def product_detail(request, pk):
         "marketplace/product_detail.html",
         {"product": product, "reviews": reviews},
     )
-
-
 @login_required
 @require_http_methods(["POST"])
 def add_to_cart(request, pk):
@@ -56,6 +56,12 @@ def add_to_cart(request, pk):
     Add a product to the session cart.
     """
     product = get_object_or_404(Product, pk=pk, active=True)
+
+    # Check if the logged-in user is the owner (Farmer) of the product
+    if product.owner == request.user:
+        messages.error(request, "You cannot add your own product to the cart.")
+        return redirect("marketplace:home")
+
     try:
         qty = int(request.POST.get("qty", 1))
     except (TypeError, ValueError):
@@ -154,3 +160,49 @@ def add_review(request, pk):
 
     messages.success(request, "Review saved." if not created else "Review added. Thanks!")
     return redirect("marketplace:product_detail", pk=product.pk)
+
+class ProductSearchApiView(APIView):
+    """
+    API view to handle product search
+    """
+    def get(self, request):
+        query = request.GET.get('q', '').strip()
+        products = Product.objects.filter(active=True)
+        
+        if query:
+            products = products.filter(Q(title__icontains=query) | Q(description__icontains=query))
+
+        serializer = ProductSerializer(products, many=True)
+        return Response(serializer.data)
+    
+    
+
+@login_required
+def add_to_wishlist(request, pk):
+    product = get_object_or_404(Product, pk=pk, active=True)
+    # Check if the product is already in the wishlist
+    if Wishlist.objects.filter(user=request.user, product=product).exists():
+        messages.error(request, "Product already in your wishlist.")
+    else:
+        Wishlist.objects.create(user=request.user, product=product)
+        messages.success(request, "Product added to your wishlist.")
+    return redirect("marketplace:home")
+
+@login_required
+def remove_from_wishlist(request, pk):
+    wishlist_item = get_object_or_404(Wishlist, user=request.user, product__pk=pk)
+    wishlist_item.delete()
+    messages.success(request, "Product removed from your wishlist.")
+    return redirect("marketplace:home")
+
+
+@login_required
+def wishlist_view(request):
+    # Get the current user's wishlist
+    wishlist_items = Wishlist.objects.filter(user=request.user)
+
+    return render(
+        request,
+        "marketplace/wishlist.html",  # Ensure this template exists
+        {"wishlist_items": wishlist_items},
+    )
