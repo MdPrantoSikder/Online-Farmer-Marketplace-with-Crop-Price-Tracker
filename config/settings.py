@@ -27,12 +27,17 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 INSTALLED_APPS = [
-    "django.contrib.admin","django.contrib.auth","django.contrib.contenttypes",
-    "django.contrib.sessions","django.contrib.messages","django.contrib.staticfiles",
-    "rest_framework","corsheaders",
-    "apps.accounts.apps.AccountsConfig",
-    "apps.marketplace.apps.MarketplaceConfig",
-    "apps.farmers.apps.FarmersConfig",
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'rest_framework',
+    'corsheaders',
+    'apps.accounts.apps.AccountsConfig',
+    'apps.marketplace.apps.MarketplaceConfig',  # Ensure only this line exists for the marketplace app
+    'apps.farmers.apps.FarmersConfig',
 ]
 
 
@@ -53,7 +58,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 TEMPLATES = [{
     "BACKEND": "django.template.backends.django.DjangoTemplates",
-    "DIRS": [BASE_DIR / "templates"],  # 👈 add this
+    "DIRS": [BASE_DIR / "templates"],  
     "APP_DIRS": True,
     "OPTIONS": {"context_processors": [
         "django.template.context_processors.request",
@@ -73,9 +78,9 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
   "default": {
     "ENGINE": "django.db.backends.mysql",
-    "NAME": "farmercart",
+    "NAME": "farmercarts",
     "USER": "root",
-    "PASSWORD": "",
+    "PASSWORD": "4422322321",
     "HOST": "127.0.0.1",
     "PORT": "3306",
     "OPTIONS": {"charset": "utf8mb4"},
