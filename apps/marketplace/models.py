@@ -14,8 +14,8 @@ def product_image_upload_to(instance, filename: str) -> str:
     Uses UUID to avoid filename collisions and accidental overwrites.
     """
     ext = filename.rsplit(".", 1)[-1].lower() if "." in filename else "jpg"
-    owner = instance.owner_id or "anon"
-    return f"products/{owner}/{uuid4().hex}.{ext}"
+    owner = instance.owner.username if instance.owner else "anon"
+    return f"products/{owner}/{uuid4().hex}.{ext}" 
 
 
 class Product(models.Model):
@@ -48,6 +48,9 @@ class Product(models.Model):
 
     def get_absolute_url(self):
         return reverse("marketplace:product_detail", args=[self.pk])
+    @property
+    def farmer_name(self):
+        return self.owner.username if self.owner else "Unknown" #Get the farmer's username (or "unknown" if no owner)
 
     @property
     def rating_avg(self):
@@ -80,3 +83,16 @@ class Review(models.Model):
 
     def __str__(self):
         return f"Review p#{self.product_id} by u#{self.user_id} — {self.rating}★"
+    
+class Wishlist(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'product')
+
+    def __str__(self):
+        return f"{self.user.username} - {self.product.title}"
+
+
