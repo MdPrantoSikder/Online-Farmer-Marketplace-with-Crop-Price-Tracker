@@ -30,4 +30,5 @@ urlpatterns += [
     path("api/products/<int:pk>/review/", AddReviewApiView.as_view(), name="add_review_api"),
      path('api/products/search/', ProductSearchApiView.as_view(), name='product_search_api'),  # Add your new search API endpoint here
 path('api/products/', ProductListApiView.as_view(), name='product_list_api'),
+
 ]

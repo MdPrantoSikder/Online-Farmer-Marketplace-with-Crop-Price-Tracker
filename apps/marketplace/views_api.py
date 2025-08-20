@@ -60,25 +60,26 @@ class ProductDetailApiView(APIView):
             return Response({"detail": "Product not found"}, status=status.HTTP_404_NOT_FOUND)
         product.delete()
         return Response({"message": f"Product {pk} deleted."}, status=status.HTTP_204_NO_CONTENT)
-    
 class ProductCreateApiView(APIView):
-    """
-    Create a new product (POST).
-    """
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     def post(self, request):
+        if not request.user.is_authenticated:
+            return Response({"detail": "Authentication required"}, status=status.HTTP_401_UNAUTHORIZED)
+
         serializer = ProductSerializer(data=request.data)
         if serializer.is_valid():
-            product = serializer.save(owner=request.user)  # attach logged-in user as owner
+            product = serializer.save(owner=request.user)
             return Response(ProductSerializer(product).data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
         
-class ProductListApiView(generics.ListCreateAPIView):  # GET + POST
+class ProductListApiView(generics.ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-        
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
 class AddToCartApiView(APIView):
     """
     Add a product to the cart.
