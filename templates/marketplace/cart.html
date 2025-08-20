@@ -3,7 +3,7 @@
 {% block title %}Cart | KrishiBazar{% endblock %}
 {% block content %}
 <div class="product-card" style="padding:20px;">
-  <h2 style="margin-bottom:12px;">Your Cart</h2>
+  <h2 style="bottom:10px;">Your Cart</h2>
 
   {% if items %}
     <div class="table-wrap" style="overflow:auto;">
@@ -37,7 +37,7 @@
           {% endfor %}
         </tbody>
         <tfoot>
-          <tr style="border-top:1px solid #eee;">
+          <tr style="border-top:1px solid #ccbbbbff;">
             <td></td>
             <td style="padding:8px; text-align:right; font-weight:700;">Total</td>
             <td style="padding:8px; text-align:right; font-weight:700;">৳{{ total }}</td>
@@ -50,7 +50,7 @@
       <a class="btn btn-primary disabled">Checkout (demo)</a>
     </div>
   {% else %}
-    <div class="empty-state" style="padding:18px; background:#fafafa; border-radius:10px; text-align:center;">
+    <div class="empty-state" style="padding:18px; background:#7ADAA5; border-radius:10px; text-align:center;">
       Your cart is empty. <a href="{% url 'marketplace:home' %}">Browse products</a>.
     </div>
   {% endif %}

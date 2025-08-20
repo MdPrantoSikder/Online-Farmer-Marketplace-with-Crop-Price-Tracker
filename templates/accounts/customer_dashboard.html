@@ -25,7 +25,7 @@
       <h3 style="margin:0;">Farmer tools</h3>
       <div style="display:flex; gap:8px;">
         <a class="btn btn-secondary" href="{% url 'farmers:dashboard' %}">Manage Products</a>
-        <a class="btn btn-primary" href="{% url 'farmers:product_add' %}">+ Add Product</a>
+        <a class="btn btn-primary" href="{% url 'farmers:product_create' %}">+ Add Product</a>
       </div>
     </div>
 
@@ -34,8 +34,7 @@
       {% for p in my_products %}
       <div class="product-card" style="padding:12px;">
         <div class="product-image">
-          <img src="{% if p.image %}{{ p.image.url }}{% else %}{% static 'image/product/img-1.jpg' %}{% endif %}"
-               alt="{{ p.title }}" style="height:120px;">
+          <img src="{% if p.image %}{{ p.image.url }}{% else %}{% static 'image/product/img-1.jpg' %}{% endif %}" alt="{{ p.title }}" style="height:120px;">
         </div>
         <h4 style="font-size:1rem; margin:8px 0 4px;">{{ p.title }}</h4>
         <div style="color:#2e7d32; font-weight:700;">৳{{ p.price }}</div>
@@ -102,35 +101,6 @@
         Your cart is empty. <a href="{% url 'marketplace:home' %}">Browse products</a>.
       </div>
     {% endif %}
-  </div>
-
-  <!-- Suggestions grid (small images) -->
-  <div class="product-card" style="padding:20px;">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-      <h3 style="margin:0;">You might like</h3>
-      <a href="{% url 'marketplace:home' %}" style="color:#0288d1;">See all</a>
-    </div>
-    <div class="product-grid">
-      {% for p in suggestions %}
-      <div class="product-card" style="padding:12px;">
-        <div class="product-image">
-          <img src="{% if p.image %}{{ p.image.url }}{% else %}{% static 'image/product/img-1.jpg' %}{% endif %}" alt="{{ p.title }}" style="height:120px;">
-        </div>
-        <h4 style="font-size:1rem; margin:8px 0 4px;">{{ p.title }}</h4>
-        <div style="color:#2e7d32; font-weight:700;">৳{{ p.price }}</div>
-        <div style="display:flex; gap:8px; justify-content:center; margin-top:8px;">
-          <a class="btn btn-secondary" href="{% url 'marketplace:product_detail' p.pk %}">View</a>
-          <form action="{% url 'marketplace:add_to_cart' p.pk %}" method="post">
-            {% csrf_token %}
-            <input type="hidden" name="qty" value="1">
-            <button class="btn btn-primary">Add</button>
-          </form>
-        </div>
-      </div>
-      {% empty %}
-      <p>No suggestions yet.</p>
-      {% endfor %}
-    </div>
   </div>
 
 </div>

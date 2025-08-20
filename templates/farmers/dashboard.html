@@ -3,13 +3,15 @@
 {% block title %}Farmer Dashboard | KrishiBazar{% endblock %}
 {% block content %}
 
+<!-- Container for the header section -->
 <div class="container" style="margin-bottom:14px;">
   <div style="display:flex; justify-content:space-between; align-items:center;">
     <h2 style="margin:0;">My Products</h2>
-    <a class="btn btn-primary" href="{% url 'farmers:product_add' %}">+ Add Product</a>
+    <a class="btn btn-primary" href="{% url 'farmers:product_create' %}">+ Add Product</a>
   </div>
 </div>
 
+<!-- Product Grid -->
 <div class="product-grid">
   {% for p in products %}
   <div class="product-card">
@@ -24,11 +26,13 @@
     <div style="color:#777; font-size:.9rem; margin-bottom:8px;">
       {% if p.active %}Active{% else %}Inactive{% endif %}
     </div>
+
+    <!-- Edit/Delete Buttons -->
     <div style="display:flex; gap:8px; justify-content:center;">
-      <a class="btn btn-secondary" href="{% url 'farmers:product_edit' p.pk %}">Edit</a>
+      <a class="btn btn-secondary" href="{% url 'farmers:product_update' p.pk %}">Edit</a> <!-- Fixed the URL for edit -->
       <form action="{% url 'farmers:product_delete' p.pk %}" method="post" onsubmit="return confirm('Delete this product?');">
         {% csrf_token %}
-        <button class="btn btn-primary" style="background:#e53935;">Delete</button>
+        <button class="btn btn-danger">Delete</button>
       </form>
     </div>
   </div>

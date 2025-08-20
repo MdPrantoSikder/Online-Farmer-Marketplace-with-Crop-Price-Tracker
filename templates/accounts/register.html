@@ -12,7 +12,8 @@
         {% endfor %}
       </ul>
     {% endif %}
-    <form method="post">{% csrf_token %}
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
       <div style="margin-bottom:12px;">
         <label>Username</label>
         <input name="username" class="search-bar" style="width:100%; border-radius:12px; margin-top:6px;" value="{{ username|default:'' }}">
@@ -36,6 +37,16 @@
           <option value="FARMER">Farmer</option>
         </select>
       </div>
+
+      <div style="margin-bottom:16px;" class="farmer-fields">
+        <label>Profile Image (required for Farmers):</label>
+        <input type="file" name="image" class="search-bar" style="width:100%; border-radius:12px; margin-top:6px;">
+      </div>
+      <div style="margin-bottom:16px;" class="farmer-fields">
+        <label>Bio (required for Farmers):</label>
+        <textarea name="bio" class="search-bar" style="width:100%; border-radius:12px; margin-top:6px;" rows="4"></textarea>
+      </div>
+
       <button class="btn btn-secondary" style="width:100%;">Register</button>
     </form>
   </div>
