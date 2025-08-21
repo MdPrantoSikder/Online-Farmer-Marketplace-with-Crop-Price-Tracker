@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>My Wishlist</h2>
+<div class="wishlist-items">
+    {% if wishlist_items %}
+        {% for item in wishlist_items %}
+            <div class="wishlist-item">
+                <img src="{{ item.product.image.url }}" alt="{{ item.product.title }}">
+                <h3>{{ item.product.title }}</h3>
+                <p>Price: ৳{{ item.product.price }}</p>
+                <form action="{% url 'marketplace:remove_from_wishlist' item.product.pk %}" method="post">
+                    {% csrf_token %}
+                    <button class="btn btn-danger">Remove from Wishlist</button>
+                </form>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>Your wishlist is empty.</p>
+    {% endif %}
+</div>
+{% endblock %}
