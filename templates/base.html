@@ -7,8 +7,11 @@
   <title>{% block title %}KrishiBazar{% endblock %}</title>
 
   <link rel="stylesheet" href="{% static 'css/freshgrocer.css' %}">
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
   {% block extra_head %}{% endblock %}
   <script src="{% static 'js/freshgrocer.js' %}" defer></script>
+  
+
 </head>
 <body>
 
@@ -27,7 +30,9 @@
     <button class="header-icon search-btn" type="submit" form="searchForm" style="border:none;">🔎 Search</button>
 
     <div class="header-icons">
-      <div class="header-icon" role="button" aria-label="Wishlist">❤️ Wishlist</div>
+     <!-- Inside base.html (or your header file) -->
+<a class="header-icon" href="{% url 'marketplace:wishlist_view' %}" role="button" aria-label="Wishlist">❤️ Wishlist</a>
+
 
       <!-- Cart count = number of distinct items -->
       <a class="header-icon" href="{% url 'marketplace:view_cart' %}">
@@ -46,7 +51,9 @@
         {% with role=user.profile.role|default:"" %}
           {% if role == "FARMER" %}
             <a class="header-icon" href="{% url 'farmers:dashboard' %}">🛍️ Farmer</a>
-            <a class="header-icon" href="{% url 'farmers:product_add' %}">➕ Add Product</a>
+          <a class="btn btn-primary" href="{% url 'farmers:product_create' %}">+ Add Product</a>
+
+
           {% endif %}
         {% endwith %}
 
@@ -136,7 +143,7 @@
       </ul>
     </div>
   </footer>
-
+  <script src="{% static 'js/fetch_products.js' %}"></script>
   {% block extra_scripts %}{% endblock %}
 </body>
 </html>

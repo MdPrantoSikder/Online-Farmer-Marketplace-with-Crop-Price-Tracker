@@ -1,0 +1,248 @@
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Arial', sans-serif;
+}
+
+body {
+  background-color:green;
+  color: #333;
+  line-height: 1.6;
+}
+
+h1, h2, h3 {
+  color: #333;
+}
+
+/* Header */
+.main-header {
+  background-color: #343a40;
+  color: white;
+  padding: 20px 0;
+}
+
+.main-header .logo {
+  font-size: 500px;
+  font-weight: 700;
+  text-decoration: none;
+  color: white;
+}
+
+.navbar {
+  background-color: #ffffff;
+  border-bottom: 1px solid #ccc;
+}
+
+.navbar .nav-link {
+  color: #333;
+  padding: 12px 15px;
+}
+
+.navbar .nav-link:hover {
+  background-color: #f8f9fa;
+  color: #007bff;
+}
+
+/* Footer */
+.footer {
+  background-color: #343a40;
+  color: white;
+  padding: 20px 0;
+  margin-top: 50px;
+}
+
+.footer .list-inline-item a {
+  color: white;
+  text-decoration: none;
+}
+
+.footer .list-inline-item a:hover {
+  text-decoration: underline;
+}
+
+/* Farmers Section */
+.featured-farmers {
+  text-align: center;
+  padding: 50px 0;
+  background-color: #007bff;
+  color: white;
+}
+
+.featured-farmers h2 {
+  font-size: 2.5rem;
+}
+
+.featured-farmers p {
+  font-size: 1.2rem;
+}
+
+.featured-farmers .btn {
+  background-color: #ffc107;
+  color: white;
+  padding: 10px 30px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-size: 1.2rem;
+}
+
+.featured-farmers .btn:hover {
+  background-color: #e0a800;
+  text-decoration: none;
+}
+
+/* Farmers Grid Layout */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+.col-md-4 {
+  flex: 1 1 calc(33.333% - 20px);
+  box-sizing: border-box;
+}
+
+.card {
+  border: none;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+.card-body h5 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.card-body p {
+  font-size: 1rem;
+  color: #666;
+}
+
+.card-body .btn {
+  background-color: #28a745;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 1rem;
+}
+
+.card-body .btn:hover {
+  background-color: #218838;
+  text-decoration: none;
+}
+
+/* Profile Page Styles */
+.farmer-profile {
+  max-width: 1200px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+.farmer-profile .profile-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.farmer-profile .profile-header img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 20px;
+}
+
+.farmer-profile .profile-header h2 {
+  font-size: 2rem;
+  margin: 0;
+}
+
+.farmer-profile .profile-header p {
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.farmer-profile .product-list {
+  margin-top: 30px;
+}
+
+.farmer-profile .product-list .product-card {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.farmer-profile .product-list .product-card img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  margin-right: 15px;
+}
+
+.farmer-profile .product-list .product-card .product-info {
+  flex: 1;
+}
+
+.farmer-profile .product-list .product-card .product-info h5 {
+  font-size: 1.2rem;
+  margin-bottom: 5px;
+}
+
+.farmer-profile .product-list .product-card .product-info p {
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.farmer-profile .product-list .product-card .product-info .price {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #28a745;
+}
+
+.farmer-profile .product-list .product-card .btn {
+  background-color: #007bff;
+  color: white;
+  padding: 8px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+}
+
+.farmer-profile .product-list .product-card .btn:hover {
+  background-color: #0056b3;
+  text-decoration: none;
+}
+
+@media (max-width: 768px) {
+  .featured-farmers h2 {
+    font-size: 2rem;
+  }
+  
+  .row {
+    flex-direction: column;
+  }
+
+  .col-md-4 {
+    flex: 1 1 100%;
+  }
+}

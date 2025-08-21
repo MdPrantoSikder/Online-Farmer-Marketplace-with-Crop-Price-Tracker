@@ -13,6 +13,14 @@
       <div style="color:#2e7d32; font-weight:800; font-size:1.25rem;">৳{{ product.price }}</div>
       <p style="color:#555; margin-top:8px;">{{ product.description }}</p>
 
+      <!-- Farmer Name as Link with Inline CSS -->
+      <div style="color:#777; font-size:.9rem; margin-top:8px;">
+        Sold by: 
+        <a href="{% url 'farmers:farmer_profile' farmer_id=product.owner.id %}" style="color:#0288d1; font-weight:600; text-decoration:none;">
+          {{ product.owner.username }}
+        </a>
+      </div>
+
       <form method="post" action="{% url 'marketplace:add_to_cart' product.pk %}" style="margin-top:12px;">{% csrf_token %}
         <input type="number" name="qty" value="1" min="1" class="search-bar" style="width:110px; margin-right:8px;">
         <button class="btn btn-primary">Add to Cart</button>
