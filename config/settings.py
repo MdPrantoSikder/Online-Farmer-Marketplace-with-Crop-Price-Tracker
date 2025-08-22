@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -77,16 +78,19 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-  "default": {
-    "ENGINE": "django.db.backends.mysql",
-    "NAME": "farmercarts",
-    "USER": "root",
-    "PASSWORD": "4422322321",
-    "HOST": "127.0.0.1",
-    "PORT": "3306",
-    "OPTIONS": {"charset": "utf8mb4"},
-  }
+    "default": {
+        "ENGINE": "sql_server.pyodbc",
+        "NAME": os.environ.get("DB_NAME", "farmercarts"),
+        "USER": os.environ.get("DB_USER", "farmer_admin"),
+        "PASSWORD": os.environ.get("DB_PASSWORD", "S@1246#Majum"),
+        "HOST": os.environ.get("DB_HOST", "online-marketplace.database.windows.net"),
+        "PORT": os.environ.get("DB_PORT", "1433"),
+        "OPTIONS": {
+            "driver": "ODBC Driver 18 for SQL Server",
+        },
+    }
 }
+
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -127,14 +131,7 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
-USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.2/howto/static-files/
-
-STATIC_URL = "/static/"
-STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
