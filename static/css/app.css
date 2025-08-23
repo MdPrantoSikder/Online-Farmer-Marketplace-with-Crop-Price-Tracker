@@ -23,7 +23,6 @@
   background: #eafff3;
   border: 1px solid #d2f7de;
 }
-
 /* Product card */
 .product-card .price-badge{
   background: #eafff3;
@@ -31,6 +30,7 @@
   font-weight: 600;
   padding: .25rem .5rem;
   border-radius: .5rem;
+
 }
 .product-card:hover{
   transform: translateY(-2px);
