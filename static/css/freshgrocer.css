@@ -1,4 +1,5 @@
-:root {
+:root
+{
   --green: #2e7d32;       /* Rich natural green */
   --light-green: #81c784; /* For lighter backgrounds */
   --blue: #0288d1;        /* Fresh sky blue */
@@ -19,7 +20,8 @@
   box-sizing: border-box;
 }
 
-body {
+body
+{
   font-family: var(--font);
   background-color: var(--light);
   color: var(--dark);
@@ -31,12 +33,14 @@ a {
   color: inherit;
 }
 
-.container {
+.container
+{
   max-width: 1200px;
   width: 90%;
   margin: 0 auto;
 }
-.product-image img {
+.product-image img
+{
   width: 100%;
   height: auto;
   border-radius: 12px;
@@ -46,7 +50,8 @@ a {
 
 /* HEADER */
 /* MAIN HEADER */
-.main-header {
+.main-header
+{
   display: flex;
   justify-content: space-between;
   align-items: center;
