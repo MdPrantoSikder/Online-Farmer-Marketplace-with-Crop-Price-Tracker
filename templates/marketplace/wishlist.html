@@ -1,22 +1,169 @@
-{% extends "base.html" %}
+/* Body & Reset */
+body {
+  font-family: 'Segoe UI', Roboto, sans-serif;
+  background-color: #f5f7fa;
+  color: #333;
+  line-height: 1.6;
+}
 
-{% block content %}
-<h2>My Wishlist</h2>
-<div class="wishlist-items">
-    {% if wishlist_items %}
-        {% for item in wishlist_items %}
-            <div class="wishlist-item">
-                <img src="{{ item.product.image.url }}" alt="{{ item.product.title }}">
-                <h3>{{ item.product.title }}</h3>
-                <p>Price: ৳{{ item.product.price }}</p>
-                <form action="{% url 'marketplace:remove_from_wishlist' item.product.pk %}" method="post">
-                    {% csrf_token %}
-                    <button class="btn btn-danger">Remove from Wishlist</button>
-                </form>
-            </div>
-        {% endfor %}
-    {% else %}
-        <p>Your wishlist is empty.</p>
-    {% endif %}
-</div>
-{% endblock %}
+/* Header */
+.main-header {
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  color: white;
+  padding: 15px 0;
+  text-align: center;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.main-header .logo {
+  font-size: 28px;
+  color: #ffc107;
+  text-decoration: none;
+}
+
+/* Navbar */
+.navbar {
+  background-color: #232f3e;
+  padding: 10px 0;
+}
+
+.navbar .nav-link {
+  color: #fff;
+  font-weight: 500;
+  margin: 0 8px;
+  transition: 0.3s;
+  border-radius: 5px;
+}
+
+.navbar .nav-link:hover {
+  background-color: #ff9900;
+  color: #fff;
+}
+
+/* Profile Card */
+.profile-card {
+  border: none;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: center;
+}
+
+.profile-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.profile-img-wrapper {
+  background: #f7f7f7;
+  padding: 20px 0;
+}
+
+.profile-img-wrapper img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #fff;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* Product Cards */
+.product-card {
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.product-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+  border: 1px solid #ff9900;
+}
+
+.product-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.product-card .price {
+  color: #b12704;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.product-card .card-title {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+/* Buttons */
+.btn-warning {
+  background-color: #ff9900;
+  color: #111;
+  font-weight: 500;
+  border: none;
+  transition: 0.3s;
+}
+
+.btn-warning:hover {
+  background-color: #e68a00;
+  color: #fff;
+}
+
+.btn-outline-primary {
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+.btn-outline-primary:hover {
+  background-color: #0071dc;
+  color: #fff;
+}
+
+/* Footer */
+.footer {
+  background-color: #222;
+  color: #fff;
+  padding: 30px 0;
+  text-align: center;
+}
+
+.footer a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.footer a:hover {
+  color: #ff9900;
+  text-decoration: underline;
+}
+
+/* Grid & Responsive */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.col-md-4 {
+  flex: 1 1 300px;
+}
+
+@media (max-width: 768px) {
+  .row {
+    flex-direction: column;
+  }
+
+  .profile-card, .product-card {
+    margin-bottom: 20px;
+  }
+}
