@@ -22,7 +22,7 @@
     <button class="header-icon search-btn" type="submit" form="searchForm" style="border:none;">🔎 Search</button>
 
     <div class="header-icons">
-     <a class="header-icon" href="{% url 'marketplace:wishlist_view' %}">❤️ Wishlist</a>
+     <a class="header-icon" href="{% url 'marketplace:wishlist_view' %}">❤ Wishlist</a>
 
       <a class="header-icon" href="{% url 'marketplace:view_cart' %}">🛒 Cart</a>
 
@@ -92,8 +92,7 @@
             <span class="tagline">Farm to Table</span>
             <h1>Fresh Fruits Delivered Daily</h1>
             <p>Discounts on all combos</p>
-            <a class="btn btn-primary" href="#featured" style="margin-top:20px; display:inline-block;">Shop Now</a>
-
+            <a class="btn btn-primary" href="#featured">Shop Now</a>
           </div>
           <div class="hero-image">
             <img src="{% static 'image/slider/img-3.jpg' %}" alt="Fresh Fruits">
@@ -177,7 +176,7 @@
             <span class="tagline">Exclusive Offers</span>
             <h1>Special Weekend Deals</h1>
             <p>Don't Miss Out!</p>
-            <a class="btn btn-primary" href="#featured">  Shop Now</a>
+            <a class="btn btn-primary" href="#featured">Shop Now</a>
           </div>
           <div class="hero-image">
             <img src="{% static 'image/slider/img-10.jpg' %}" alt="Special Offers">
@@ -186,7 +185,7 @@
 
         <!-- Slider Controls -->
         <div class="slider-controls">
-          <span class="prev">&#1004;</span>
+          <span class="prev">&#10094;</span>
           <span class="next">&#10095;</span>
         </div>
       </div>
@@ -201,7 +200,7 @@
 
       <!-- POPULAR CATEGORIES -->
       <section class="popular-categories">
-        <h2>  Popular Categories</h2>
+        <h2>Popular Categories</h2>
         <div class="category-scroll">
           <div class="category-card">Snacks</div>
           <div class="category-card">Beverages</div>
@@ -213,42 +212,92 @@
         </div>
       </section>
 
- <!-- Featured Products or Latest Products Section -->
-      <section class="featured-products">
-        <h2>Latest from Farmers</h2>
-        <div class="product-grid">
-          {% for p in products %}
-            <div class="product-card">
-              <div class="product-image">
-                <img src="{% if p.image %}{{ p.image.url }}{% else %}{% static 'image/default-product.jpg' %}{% endif %}" alt="{{ p.title }}">
-              </div>
-              <h3>{{ p.title }}</h3>
-              <p>৳{{ p.price }}</p>
+<!-- Featured Products or Latest Products Section -->
+<section class="featured-products" id="latest-shelf">
+  <h2 style="margin-bottom:10px;">Latest from Farmers</h2>
 
-              <!-- Display farmer's name -->
-              <div class="small text-body-secondary mb-3">
-                <i class="bi bi-person-fill me-1"></i> Sold by: {{ p.farmer_name }}
-              </div>
+  <!-- Shelf wrapper -->
+  <div class="shelf-wrap" style="position:relative;">
+    <!-- Prev / Next -->
+    <button type="button" class="shelf-nav shelf-prev" aria-label="Previous"
+            style="position:absolute; left:-8px; top:50%; transform:translateY(-50%);
+                   z-index:2; border:none; background:#fff; box-shadow:0 2px 8px rgba(0,0,0,.12);
+                   width:36px; height:36px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center;">‹</button>
+    <button type="button" class="shelf-nav shelf-next" aria-label="Next"
+            style="position:absolute; right:-8px; top:50%; transform:translateY(-50%);
+                   z-index:2; border:none; background:#fff; box-shadow:0 2px 8px rgba(0,0,0,.12);
+                   width:36px; height:36px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center;">›</button>
 
-              <div style="display:flex; gap:8px; justify-content:center; margin-top:8px;">
-                <a class="btn btn-secondary" href="{% url 'marketplace:product_detail' p.pk %}">View</a>
+    <!-- Viewport (scroll container) -->
+    <div class="shelf-viewport"
+         style="overflow-x:auto; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; padding:4px;">
+      <!-- Track (horizontal flex of pages) -->
+      <div class="shelf-track" style="display:flex; gap:16px;">
+        {# Chunk products: 10 per page (2 rows × 5 cols) #}
+        {% for p in products %}
+          {% if forloop.first or forloop.counter0|divisibleby:10 %}
+            <div class="shelf-page"
+                 style="flex:0 0 100%; scroll-snap-align:start; display:grid; gap:16px;
+                        grid-template-columns:repeat(5, minmax(0,1fr)); grid-auto-rows:1fr;">
+          {% endif %}
 
-                <!-- Add to Wishlist Button -->
-                 <form action="{% url 'marketplace:add_to_wishlist' p.pk %}" method="post">
-        {% csrf_token %}
-        <button class="btn btn-warning">❤️ Add to Wishlist</button>
-      </form>
-                <!-- Remove from Wishlist Button (if it's already in wishlist) -->
-                <form action="{% url 'marketplace:remove_from_wishlist' p.pk %}" method="post">
-                  {% csrf_token %}
-                  <button class="btn btn-danger">Remove from Wishlist</button>
-                </form>
+              <!-- CARD -->
+              <div class="product-card"
+                   style="padding:12px; border-radius:12px; background:#fff;
+                          box-shadow:0 2px 10px rgba(0,0,0,.06); height:100%;
+                          display:flex; flex-direction:column;">
+                <a href="{% url 'marketplace:product_detail' p.pk %}"
+                   class="product-image"
+                   style="width:100%; aspect-ratio:4/3; overflow:hidden; border-radius:10px; background:#f4f4f4; display:block;">
+                  <img src="{% if p.image %}{{ p.image.url }}{% else %}{% static 'image/default-product.jpg' %}{% endif %}"
+                       alt="{{ p.title }}"
+                       style="width:100%; height:100%; object-fit:cover; display:block;">
+                </a>
+
+                <h3 style="font-size:1rem; margin:10px 0 4px; line-height:1.3; min-height:2.6em; overflow:hidden;">
+                  {{ p.title }}
+                </h3>
+
+                <div style="color:#2e7d32; font-weight:800; font-size:1.05rem;">৳{{ p.price }}</div>
+                <div style="color:#777; font-size:.85rem; margin-top:2px;">👨‍🌾 Sold by: {{ p.farmer_name }}</div>
+
+                <div style="margin-top:auto;">
+                  <div style="display:flex; gap:8px; justify-content:center; margin-top:10px; flex-wrap:wrap;">
+                    <a class="btn btn-secondary" href="{% url 'marketplace:product_detail' p.pk %}">View</a>
+
+                    <!-- Add to Wishlist -->
+                    <form action="{% url 'marketplace:add_to_wishlist' p.pk %}" method="post" style="margin:0;">
+                      {% csrf_token %}
+                      <button class="btn btn-warning" type="submit">❤ Wishlist</button>
+                    </form>
+
+                    <!-- Remove from Wishlist -->
+                    <form action="{% url 'marketplace:remove_from_wishlist' p.pk %}" method="post" style="margin:0;">
+                      {% csrf_token %}
+                      <button class="btn btn-danger" type="submit">Remove</button>
+                    </form>
+                  </div>
+                </div>
               </div>
+              <!-- /CARD -->
+
+          {% if forloop.last or forloop.counter|divisibleby:10 %}
             </div>
-          {% empty %}
-            <div class="text-product">No products yet — be the first to list!</div>
-          {% endfor %}
-        </div>
+          {% endif %}
+        {% empty %}
+          <div class="shelf-page"
+               style="flex:0 0 100%; scroll-snap-align:start; display:grid; gap:16px;
+                      grid-template-columns:repeat(5, minmax(0,1fr)); grid-auto-rows:1fr;">
+            <div class="text-product" style="grid-column:1/-1; text-align:center; padding:18px; background:#fafafa; border-radius:10px;">
+              No products yet — be the first to list!
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Responsive tune: keep 5 cols on desktop, relax on smaller screens -->
       </section>
 
 
@@ -384,5 +433,73 @@
       .catch(error => console.error('Error deleting product:', error));
     });
   </script>
+
+  <script>
+    (function () {
+      const shelf = document.getElementById('latest-shelf');
+      if (!shelf) return;
+
+      const viewport = shelf.querySelector('.shelf-viewport');
+      const track    = shelf.querySelector('.shelf-track');
+      const pages    = Array.from(track.querySelectorAll('.shelf-page'));
+      const prevBtn  = shelf.querySelector('.shelf-prev');
+      const nextBtn  = shelf.querySelector('.shelf-next');
+
+      if (!pages.length) {
+        prevBtn && (prevBtn.style.display = 'none');
+        nextBtn && (nextBtn.style.display = 'none');
+        return;
+      }
+
+      // Snap to the nearest page after any scroll
+      function snapToNearest() {
+        const x = viewport.scrollLeft;
+        // find page whose left is closest to current scroll
+        let closest = pages[0], best = Infinity;
+        pages.forEach(p => {
+          const left = p.offsetLeft;
+          const d = Math.abs(left - x);
+          if (d < best) { best = d; closest = p; }
+        });
+        viewport.scrollTo({ left: closest.offsetLeft, behavior: 'smooth' });
+        updateArrows();
+      }
+
+      function pageIndex() {
+        const x = viewport.scrollLeft + 1; // +1 to avoid rounding edge
+        let idx = 0;
+        for (let i = 0; i < pages.length; i++) {
+          if (pages[i].offsetLeft <= x) idx = i;
+        }
+        return idx;
+      }
+
+      function go(delta) {
+        let idx = pageIndex() + delta;
+        idx = Math.max(0, Math.min(pages.length - 1, idx));
+        viewport.scrollTo({ left: pages[idx].offsetLeft, behavior: 'smooth' });
+        setTimeout(updateArrows, 300);
+      }
+
+      function updateArrows() {
+        const idx = pageIndex();
+        if (prevBtn) prevBtn.disabled = (idx === 0);
+        if (nextBtn) nextBtn.disabled = (idx === pages.length - 1);
+      }
+
+      prevBtn && prevBtn.addEventListener('click', () => go(-1));
+      nextBtn && nextBtn.addEventListener('click', () => go(+1));
+      viewport.addEventListener('scrollend' in window ? 'scrollend' : 'scroll', () => {
+        // Debounce snapping after manual scrolls; only snap once user stops
+        clearTimeout(viewport._snapTimer);
+        viewport._snapTimer = setTimeout(snapToNearest, 120);
+      });
+
+      // init
+      updateArrows();
+      // ensure first page aligned on load
+      viewport.scrollTo({ left: pages[0].offsetLeft, behavior: 'instant' });
+    })();
+  </script>
 </body>
-{% static "</html>" %}
+</html>
