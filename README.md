@@ -19,7 +19,7 @@ An online platform that connects **farmers** directly with **buyers**, allowing 
 
 ### Backend
 - **Django** with Django REST Framework
--  FastAPI
+
 
 ### Database
 - **MySQL** (via Django ORM)
