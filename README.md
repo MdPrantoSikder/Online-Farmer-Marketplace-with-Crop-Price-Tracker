@@ -4,8 +4,8 @@ An online platform that connects **farmers** directly with **buyers**, allowing 
 
 ## 🚀 Features
 
-- 👨‍🌾 Farmer and 👤 Buyer authentication system,
-- 🌽 Crop listing, searching, and buying
+- 👨‍🌾 Farmer and 👤 Buyer authentication system.
+- 🌽 Crop listing, searching, and buying.
 - 📈 Real-time crop price tracking
 - 💬 Messaging system between users
 - 🛠️ Admin panel for managing users, crops, and prices
