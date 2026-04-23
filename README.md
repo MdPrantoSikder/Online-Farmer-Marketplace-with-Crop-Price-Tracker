@@ -13,7 +13,7 @@ An online platform that connects **farmers** directly with **buyers**, allowing 
 ## 🧰 Tech Stack
 
 ### Frontend
-- HTML, CSS, JavaScript
+- HTML, CSS, JavaScript.
 - **React.js**
   
 
