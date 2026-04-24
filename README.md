@@ -36,7 +36,7 @@ The backend provides a secure REST API:
 
 - `POST /api/register/` – Register user  .
 - `POST /api/login/` – Login (returns JWT).
-- `GET /api/crops/` – List all crops  
+- `GET /api/crops/` – List all crops.
 - `POST /api/crops/` – Add new crop (farmer only)  
 - `GET /api/prices/` – Get current crop prices
 
