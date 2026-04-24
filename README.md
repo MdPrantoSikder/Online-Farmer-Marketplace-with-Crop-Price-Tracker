@@ -25,7 +25,7 @@ An online platform that connects **farmers** directly with **buyers**, allowing 
 - **MySQL** (via Django ORM)
 
 ### Deployment
-- **python anywhere
+- **python anywhere.
   
 ### Project Management: 
 Trello .
