@@ -38,7 +38,7 @@ The backend provides a secure REST API:
 - `POST /api/login/` – Login (returns JWT).
 - `GET /api/crops/` – List all crops.
 - `POST /api/crops/` – Add new crop (farmer only)  
-- `GET /api/prices/` – Get current crop prices
+- `GET /api/prices/` – Get current crop prices.
 
 > 🛡️ Auth: All protected routes require a valid JWT token  
 > 📦 Data Format: JSON
