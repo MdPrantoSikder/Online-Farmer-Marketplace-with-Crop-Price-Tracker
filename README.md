@@ -1,4 +1,4 @@
-#  Online Farmer Marketplace with Crop Price Tracker
+#  Online Farmer Marketplace with Crop Price Tracker.
 
 An online platform that connects **farmers** directly with **buyers**, allowing them to trade crops fairly and transparently. The system provides a **real-time crop price tracker**, secure user management, and smooth user interaction—all powered by a **Django REST API** and a **React frontend**.
 
