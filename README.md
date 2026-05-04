@@ -40,5 +40,5 @@ The backend provides a secure REST API:
 - `POST /api/crops/` – Add new crop (farmer only)  
 - `GET /api/prices/` – Get current crop prices.
 
-> 🛡️ Auth: All protected routes require a valid JWT token .
+> 🛡️ Auth: All protected routes require a valid JWT token.
 > 📦 Data Format: JSON
