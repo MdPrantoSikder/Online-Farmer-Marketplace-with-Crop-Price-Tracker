@@ -22,7 +22,7 @@ An online platform that connects **farmers** directly with **buyers**, allowing 
 
 
 ### Database
-- **MySQL** (via Django ORM)
+- **MySQL** (via Django ORM).
 
 ### Deployment
 - **python anywhere.
