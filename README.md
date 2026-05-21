@@ -41,4 +41,4 @@ The backend provides a secure REST API:
 - `GET /api/prices/` – Get current crop prices.
 
 > 🛡️ Auth: All protected routes require a valid JWT token.
-> 📦 Data Format: JSON
+> 📦 Data Format: JSON.
